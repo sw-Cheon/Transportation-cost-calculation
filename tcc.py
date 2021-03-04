@@ -209,6 +209,8 @@ class transportation_Cost_Calculation():
             print(" \n 산출된 예상 교통비입니다.")
             print(" > 편도 :", scost_ + '원')
             print(" > 왕복 :", rcost_ + '원')
+            print("\n 종료하려면 아무키나 누르세요.")
+            end = input(" > ")
 
         except:
             print("잘못된 데이터가 입력되었습니다.")
