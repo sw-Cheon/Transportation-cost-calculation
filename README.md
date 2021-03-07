@@ -1,7 +1,7 @@
 # Transportation cost calculation
 
 ## python과 kakao map API를 이용한 여행 교통비 계산
-![qt_gui](https://user-images.githubusercontent.com/63433646/110193207-19dbad80-7e76-11eb-8244-97e36fd19056.png)
+![expl_image](https://user-images.githubusercontent.com/63433646/110238755-b2615300-7f86-11eb-939c-962f3031e1eb.png)
 
 	본인 차량의 일반도로연비, 고속도로연비를 입력하면 경로상 고속도로 km에 대한 소요연료비와 
 	일반국도 km에 대한 소요연료비를 각각 계산하고 이에 고속도로 이용료를 더한 최종 여행 교통비가 산출됩니다.
