@@ -16,6 +16,7 @@ class transportation_Cost_Calculation():
         self.oil_Cost = 0
         self.road_Fare = ''
         self.result = ""
+        self.disc_highway = 0
         self.oil_GSL = 'https://finance.naver.com/marketindex/oilDetail.nhn?marketindexCd=OIL_GSL' # 휘발유
         self.oil_LO = 'https://finance.naver.com/marketindex/oilDetail.nhn?marketindexCd=OIL_LO' # 경유
 
@@ -51,6 +52,7 @@ class transportation_Cost_Calculation():
         for tag in roads:
             road = tag.get_text()
             if (self.highway in road):
+                self.disc_highway += 1
                 extracted_Value = road.find('km') - 2
                 if (extracted_Value == -3):
                     extracted_Value = road.find('m') - 1
@@ -89,18 +91,16 @@ class transportation_Cost_Calculation():
                                 self.general_Road.append(str(int(float(road[cnt + 1:extracted_Value + 2]) * 1000)))
                         break
 
+        str_ = []
+        print("self.disc_highway : ", self.disc_highway)
+        if (self.disc_highway != 0):
+            self.road_Fare = self.get_Road_Fare()
+
         highways = 0
-        general_Roads = 0
         for ele in self.highways:
             highways += int(ele)
-        for ele in self.general_Road:
-            general_Roads += int(ele)
-        self.road_Fare = self.get_Road_Fare()
-        str_ = []
         str_Highways = list(str(highways))
-        str_General_Roads = list(str(general_Roads))
         hlength = len(str_Highways)
-        glength = len(str_General_Roads)
         if (hlength == 6):
             str_Highways.insert(3, ',')
         elif (hlength == 5):
@@ -111,6 +111,11 @@ class transportation_Cost_Calculation():
         for ele in str_Highways:
             highways_ += ele
 
+        general_Roads = 0
+        for ele in self.general_Road:
+            general_Roads += int(ele)
+        str_General_Roads = list(str(general_Roads))
+        glength = len(str_General_Roads)
         if (glength == 6):
             str_General_Roads.insert(3, ',')
         elif (glength == 5):
@@ -133,6 +138,9 @@ class transportation_Cost_Calculation():
         for ele in road_Fare:
             road_Fare_ += ele
 
+        if (self.disc_highway == 0):
+            highways_ = '0'
+            road_Fare_ = '0'
         m1 = " 산출된 예상 이동거리입니다."
         hw = " 고속도로 : " + highways_ + "m" + " (고속도로 이용료 : " + road_Fare_ + "원)"
         gr = " 일반도로 : " + general_Roads_ + "m"
@@ -140,12 +148,20 @@ class transportation_Cost_Calculation():
         str_.append(hw)
         str_.append(gr)
 
-        result1 = ((highways / self.highway_Fuel_Efficiency) * self.oil_Cost) / 1000
-        result2 = ((general_Roads / self.general_Road_Fuel_Efficiency) * self.oil_Cost) / 1000
-        self.result = round(result1 + result2, 0)
+        if (self.disc_highway != 0):
+            result1 = ((highways / self.highway_Fuel_Efficiency) * self.oil_Cost) / 1000
+            result2 = ((general_Roads / self.general_Road_Fuel_Efficiency) * self.oil_Cost) / 1000
+            self.result = round(result1 + result2, 0)
+        else:
+            result2 = ((general_Roads / self.general_Road_Fuel_Efficiency) * self.oil_Cost) / 1000
+            self.result = round(result2, 0)
 
-        scost = list(str(int(self.result) + int(self.road_Fare)))
-        rcost = list(str((int(self.result) + int(self.road_Fare)) * 2))
+        if (self.disc_highway == 0):
+            scost = list(str(int(self.result)))
+            rcost = list(str(int(self.result) * 2))
+        else:
+            scost = list(str(int(self.result) + int(self.road_Fare)))
+            rcost = list(str((int(self.result) + int(self.road_Fare)) * 2))
         slength = len(scost)
         rlength = len(rcost)
         if (slength == 6):

@@ -132,23 +132,23 @@ class Ui_TccDialog(QWidget):
         if ok:
             self.tcc.url = url
             self.infomsg.append("\n > Now calculating...\n")
-            try:
-                str_ = self.tcc.run()
-            except:
-                self.infomsg.clear()
-                self.infomsg.append(" 잘못된 형식입니다. url을 확인해주세요.")
-                url, ok = QInputDialog.getText(self, '길찾기 url', '길찾기 url을 입력하세요.')
-                if ok:
-                    self.tcc.url = url
-                    self.infomsg.append("\n > Now calculating...\n")
-                    str_ = self.tcc.run()
-                    self.infomsg.clear()
-                    self.infomsg.append(str_[0])
-                    self.infomsg.append(str_[1])
-                    self.infomsg.append(str_[2])
-                    self.infomsg.append(str_[3])
-                    self.infomsg.append(str_[4])
-                    self.infomsg.append(str_[5])
+            # try:
+            str_ = self.tcc.run()
+            # except:
+            #     self.infomsg.clear()
+            #     self.infomsg.append(" 잘못된 형식입니다. url을 확인해주세요.")
+            #     url, ok = QInputDialog.getText(self, '길찾기 url', '길찾기 url을 입력하세요.')
+            #     if ok:
+            #         self.tcc.url = url
+            #         self.infomsg.append("\n > Now calculating...\n")
+            #         str_ = self.tcc.run()
+            #         self.infomsg.clear()
+            #         self.infomsg.append(str_[0])
+            #         self.infomsg.append(str_[1])
+            #         self.infomsg.append(str_[2])
+            #         self.infomsg.append(str_[3])
+            #         self.infomsg.append(str_[4])
+            #         self.infomsg.append(str_[5])
             self.infomsg.clear()
             self.infomsg.append(str_[0])
             self.infomsg.append(str_[1])
